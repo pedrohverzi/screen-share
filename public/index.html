@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tela dos Amigos</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <section id="join-screen" class="join-screen">
+    <div class="join-card">
+      <h1>Tela dos Amigos</h1>
+      <p class="subtitle">Compartilhamento de tela com audio, sem enrolacao.</p>
+      <label>
+        Seu nome
+        <input id="name-input" type="text" placeholder="ex: Pedro" autocomplete="off" />
+      </label>
+      <button id="join-btn">Entrar</button>
+      <p id="join-error" class="error"></p>
+    </div>
+  </section>
+
+  <div id="app-shell" class="app-shell hidden">
+    <nav class="rooms-rail">
+      <div class="server-icon" title="Tela dos Amigos">TA</div>
+      <div class="rooms-list" id="rooms-list"></div>
+      <button class="room-add" id="add-room-btn" title="Criar/entrar em outra sala">+</button>
+    </nav>
+
+    <main class="main-area">
+      <header class="room-header">
+        <span class="room-hash">#</span>
+        <span id="active-room-name">geral</span>
+        <span class="header-sharer" id="sharer-info"></span>
+        <div class="header-actions">
+          <button id="share-btn">Compartilhar minha tela</button>
+          <button id="stop-btn" class="danger hidden">Parar compartilhamento</button>
+        </div>
+      </header>
+      <div id="video-area" class="video-area">
+        <span class="placeholder">Ninguem esta compartilhando a tela</span>
+      </div>
+    </main>
+
+    <aside class="members-panel">
+      <h3>Conectados — <span id="member-count">0</span></h3>
+      <ul id="participant-list"></ul>
+      <div class="me-panel">
+        <span class="status-dot online"></span>
+        <span id="me-name" class="me-name"></span>
+        <button id="leave-btn" class="leave-btn" title="Sair da sala">Sair</button>
+      </div>
+    </aside>
+  </div>
+
+  <script src="/vendor/livekit-client.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

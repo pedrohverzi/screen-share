@@ -1,0 +1,17 @@
+{
+  "name": "screen-share",
+  "version": "1.0.0",
+  "description": "Compartilhamento de tela com audio para um grupo pequeno de amigos (sem chat de voz)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "livekit-client": "^2.7.4",
+    "livekit-server-sdk": "^2.9.2"
+  }
+}
