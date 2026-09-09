@@ -2,7 +2,6 @@
   "name": "screen-share",
   "version": "1.0.0",
   "description": "Compartilhamento de tela com audio para um grupo pequeno de amigos (sem chat de voz)",
-  "main": "dev-server.js",
   "scripts": {
     "start": "node dev-server.js",
     "dev": "node dev-server.js"
