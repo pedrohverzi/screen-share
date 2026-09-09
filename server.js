@@ -15,11 +15,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-app.get('/config', (_req, res) => {
+app.get('/api/config', (_req, res) => {
   res.json({ livekitUrl: LIVEKIT_URL });
 });
 
-app.post('/token', async (req, res) => {
+app.post('/api/token', async (req, res) => {
   const { room, identity } = req.body || {};
 
   if (!room || !identity) {

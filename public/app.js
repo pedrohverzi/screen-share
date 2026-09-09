@@ -150,10 +150,10 @@ async function connectToRoom(roomName) {
   showPlaceholder('Conectando...');
   currentSharerIdentity = null;
 
-  const configRes = await fetch('/config');
+  const configRes = await fetch('/api/config');
   const { livekitUrl } = await configRes.json();
 
-  const tokenRes = await fetch('/token', {
+  const tokenRes = await fetch('/api/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ room: roomName, identity }),
