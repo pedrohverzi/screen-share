@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const { generateToken } = require('./lib/generateToken');
 
@@ -14,6 +15,12 @@ app.use(express.json());
 // So usado em dev local (node server.js). No Vercel, express.static() e ignorado
 // e os arquivos de public/ sao servidos direto pelo CDN.
 app.use(express.static('public'));
+
+// Rota explicita porque express.static() e ignorado em producao (Vercel serve
+// public/ direto pelo CDN, mas nao resolve "/" para index.html sozinho).
+app.get('/', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.get('/api/config', (_req, res) => {
   res.json({ livekitUrl: LIVEKIT_URL });
