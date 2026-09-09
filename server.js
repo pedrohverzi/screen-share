@@ -8,7 +8,7 @@ const { LIVEKIT_URL, LIVEKIT_API_KEY, LIVEKIT_API_SECRET, PORT = 3000 } = proces
 
 if (!LIVEKIT_URL || !LIVEKIT_API_KEY || !LIVEKIT_API_SECRET) {
   console.error('Faltam variaveis de ambiente. Copie .env.example para .env e preencha com os dados do seu projeto LiveKit Cloud.');
-  process.exit(1);
+  if (require.main === module) process.exit(1);
 }
 
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -58,7 +58,7 @@ function readJsonBody(req) {
   });
 }
 
-const server = http.createServer(async (req, res) => {
+async function handler(req, res) {
   if (req.method === 'GET' && req.url === '/api/config') {
     sendJson(res, 200, { livekitUrl: LIVEKIT_URL });
     return;
@@ -85,8 +85,12 @@ const server = http.createServer(async (req, res) => {
   }
 
   serveStatic(req, res);
-});
+}
 
-server.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
+module.exports = handler;
+
+if (require.main === module) {
+  http.createServer(handler).listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+  });
+}
