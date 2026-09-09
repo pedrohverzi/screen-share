@@ -4,8 +4,8 @@ const ROOM_NAME = 'geral';
 
 // Qualidade do compartilhamento de tela. Suba/desca conforme sua internet
 // e o quanto quer economizar dos 50GB/mes gratis do LiveKit.
-const SCREEN_SHARE_RESOLUTION = { width: 1920, height: 1080, frameRate: 30 };
-const SCREEN_SHARE_MAX_BITRATE = 6_000_000; // 6 Mbps
+const SCREEN_SHARE_RESOLUTION = { width: 1920, height: 1080, frameRate: 60 };
+const SCREEN_SHARE_MAX_BITRATE = 8_000_000; // 8 Mbps
 
 const els = {
   joinScreen: document.getElementById('join-screen'),
