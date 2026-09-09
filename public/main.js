@@ -10,11 +10,13 @@ const SCREEN_SHARE_MAX_BITRATE = 4_000_000; // 4 Mbps
 const els = {
   joinScreen: document.getElementById('join-screen'),
   nameInput: document.getElementById('name-input'),
+  passwordInput: document.getElementById('password-input'),
   joinBtn: document.getElementById('join-btn'),
   joinError: document.getElementById('join-error'),
 
   appShell: document.getElementById('app-shell'),
   sharerInfo: document.getElementById('sharer-info'),
+  fullscreenBtn: document.getElementById('fullscreen-btn'),
   shareBtn: document.getElementById('share-btn'),
   stopBtn: document.getElementById('stop-btn'),
   videoArea: document.getElementById('video-area'),
@@ -109,6 +111,7 @@ function attachTrack(track, participantIdentity) {
     el.style.display = 'none';
   }
   els.videoArea.appendChild(el);
+  els.fullscreenBtn.disabled = !els.videoArea.querySelector('video');
 }
 
 function detachTrack(track) {
@@ -116,9 +119,10 @@ function detachTrack(track) {
   if (!els.videoArea.querySelector('video, audio')) {
     showPlaceholder('Ninguem esta compartilhando a tela');
   }
+  els.fullscreenBtn.disabled = !els.videoArea.querySelector('video');
 }
 
-async function connectToRoom() {
+async function connectToRoom(password) {
   els.videoArea.innerHTML = '';
   showPlaceholder('Conectando...');
   currentSharerIdentity = null;
@@ -129,8 +133,9 @@ async function connectToRoom() {
   const tokenRes = await fetch('/api/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ room: ROOM_NAME, identity }),
+    body: JSON.stringify({ room: ROOM_NAME, identity, password }),
   });
+  if (tokenRes.status === 401) throw new Error('SENHA_INCORRETA');
   if (!tokenRes.ok) throw new Error('Nao foi possivel obter o token de acesso');
   const { token } = await tokenRes.json();
 
@@ -249,15 +254,22 @@ els.joinBtn.addEventListener('click', async () => {
   els.joinBtn.disabled = true;
   try {
     identity = `${name}-${Math.random().toString(36).slice(2, 6)}`;
-    await connectToRoom();
+    await connectToRoom(els.passwordInput.value);
     els.joinScreen.classList.add('hidden');
     els.appShell.classList.remove('hidden');
   } catch (err) {
     console.error(err);
-    els.joinError.textContent = 'Erro ao conectar. Confira o servidor e tente de novo.';
+    els.joinError.textContent = err.message === 'SENHA_INCORRETA'
+      ? 'Senha incorreta.'
+      : 'Erro ao conectar. Confira o servidor e tente de novo.';
   } finally {
     els.joinBtn.disabled = false;
   }
+});
+
+els.fullscreenBtn.addEventListener('click', () => {
+  const video = els.videoArea.querySelector('video');
+  if (video) video.requestFullscreen();
 });
 
 els.shareBtn.addEventListener('click', startShare);

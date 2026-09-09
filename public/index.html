@@ -15,6 +15,10 @@
         Seu nome
         <input id="name-input" type="text" placeholder="ex: Pedro" autocomplete="off" />
       </label>
+      <label>
+        Senha da sala
+        <input id="password-input" type="password" placeholder="senha combinada com a galera" autocomplete="off" />
+      </label>
       <button id="join-btn">Entrar</button>
       <p id="join-error" class="error"></p>
     </div>
@@ -25,6 +29,7 @@
       <header class="room-header">
         <span class="header-sharer" id="sharer-info"></span>
         <div class="header-actions">
+          <button id="fullscreen-btn" class="secondary" title="Tela cheia" disabled>Tela cheia</button>
           <button id="share-btn">Compartilhar minha tela</button>
           <button id="stop-btn" class="danger hidden">Parar compartilhamento</button>
         </div>

@@ -16,7 +16,7 @@ Usa [LiveKit Cloud](https://cloud.livekit.io) como SFU (recebe a tela de quem co
 cp .env.example .env
 ```
 
-Edite `.env` e preencha `LIVEKIT_URL`, `LIVEKIT_API_KEY` e `LIVEKIT_API_SECRET` com os valores do passo 1.
+Edite `.env` e preencha `LIVEKIT_URL`, `LIVEKIT_API_KEY` e `LIVEKIT_API_SECRET` com os valores do passo 1. Defina tambem `ROOM_PASSWORD` com uma senha simples combinada com a galera — sem isso, qualquer pessoa com o link entra na sala.
 
 ## 3. Instalar e rodar
 
@@ -37,7 +37,7 @@ O `server.js` exporta a funcao que trata os pedidos (`module.exports = handler`)
 
 1. Suba este repositorio pro GitHub.
 2. Em https://vercel.com, clique em "Add New > Project" e importe o repositorio.
-3. Em "Environment Variables", adicione `LIVEKIT_URL`, `LIVEKIT_API_KEY` e `LIVEKIT_API_SECRET` (os mesmos valores do seu `.env`). O `PORT` pode ficar em branco, nao e usado no Vercel.
+3. Em "Environment Variables", adicione `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET` e `ROOM_PASSWORD` (os mesmos valores do seu `.env`). O `PORT` pode ficar em branco, nao e usado no Vercel.
 4. Clique em "Deploy". A URL que o Vercel gerar (tipo `https://seu-projeto.vercel.app`) e o link que voce manda pros amigos.
 
 Cada novo `git push` na branch principal publica uma atualizacao automaticamente.

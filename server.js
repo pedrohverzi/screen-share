@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const { generateToken } = require('./lib/generateToken');
 
-const { LIVEKIT_URL, LIVEKIT_API_KEY, LIVEKIT_API_SECRET, PORT = 3000 } = process.env;
+const { LIVEKIT_URL, LIVEKIT_API_KEY, LIVEKIT_API_SECRET, ROOM_PASSWORD, PORT = 3000 } = process.env;
 
 if (!LIVEKIT_URL || !LIVEKIT_API_KEY || !LIVEKIT_API_SECRET) {
   console.error('Faltam variaveis de ambiente. Copie .env.example para .env e preencha com os dados do seu projeto LiveKit Cloud.');
@@ -27,10 +27,14 @@ app.get('/api/config', (_req, res) => {
 });
 
 app.post('/api/token', async (req, res) => {
-  const { room, identity } = req.body || {};
+  const { room, identity, password } = req.body || {};
 
   if (!room || !identity) {
     return res.status(400).json({ error: 'room e identity sao obrigatorios' });
+  }
+
+  if (ROOM_PASSWORD && password !== ROOM_PASSWORD) {
+    return res.status(401).json({ error: 'senha incorreta' });
   }
 
   const token = await generateToken({

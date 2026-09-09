@@ -194,6 +194,16 @@ button {
   background: var(--danger-hover);
 }
 
+.header-actions button.secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.header-actions button.secondary:hover {
+  background: var(--bg-elevated);
+}
+
 .header-actions button.hidden {
   display: none;
 }
