@@ -33,7 +33,7 @@ Rodando so na sua maquina, `localhost:3000` so funciona pra voce. Pra seus amigo
 
 ### Deploy no Vercel (recomendado, gratuito)
 
-O Vercel detecta sozinho que `server.js` e um app Express (por causa da dependencia `express` no `package.json`) e publica ele inteiro como uma funcao serverless — o mesmo `server.js` que roda local, sem pasta `api/` nem `vercel.json` nenhum.
+O projeto tem duas partes separadas pro Vercel: `public/` (paginas estaticas) e `api/config.js` / `api/token.js` (viram Serverless Functions automaticamente, so por estarem na pasta `api/`). O `dev-server.js` e usado **so localmente** (`npm start`) e o Vercel nem chega a olhar pra ele.
 
 1. Suba este repositorio pro GitHub.
 2. Em https://vercel.com, clique em "Add New > Project" e importe o repositorio.
@@ -44,7 +44,7 @@ Cada novo `git push` na branch principal publica uma atualizacao automaticamente
 
 ### Alternativas
 
-Render.com, Railway.app ou Fly.io tambem funcionam do mesmo jeito, rodando `server.js` como um servidor Node comum.
+Render.com, Railway.app ou Fly.io tambem funcionam, rodando `dev-server.js` como um servidor Node comum (`node dev-server.js`), sem usar a pasta `api/`.
 
 ## Como funciona o uso
 
