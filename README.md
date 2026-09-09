@@ -33,18 +33,18 @@ Rodando so na sua maquina, `localhost:3000` so funciona pra voce. Pra seus amigo
 
 ### Deploy no Vercel (recomendado, gratuito)
 
-O projeto ja esta pronto pra isso: as paginas ficam em `public/` e as duas rotas de servidor (`/config` e `/token`) viram Serverless Functions em `api/`.
+O Vercel detecta sozinho que `server.js` e um app Express (por causa da dependencia `express` no `package.json`) e publica ele inteiro como uma funcao serverless — o mesmo `server.js` que roda local, sem pasta `api/` nem `vercel.json` nenhum.
 
 1. Suba este repositorio pro GitHub.
 2. Em https://vercel.com, clique em "Add New > Project" e importe o repositorio.
-3. Em "Environment Variables", adicione `LIVEKIT_URL`, `LIVEKIT_API_KEY` e `LIVEKIT_API_SECRET` (os mesmos valores do seu `.env`).
+3. Em "Environment Variables", adicione `LIVEKIT_URL`, `LIVEKIT_API_KEY` e `LIVEKIT_API_SECRET` (os mesmos valores do seu `.env`). O `PORT` pode ficar em branco, nao e usado no Vercel.
 4. Clique em "Deploy". A URL que o Vercel gerar (tipo `https://seu-projeto.vercel.app`) e o link que voce manda pros amigos.
 
 Cada novo `git push` na branch principal publica uma atualizacao automaticamente.
 
 ### Alternativas
 
-Render.com, Railway.app ou Fly.io tambem funcionam, rodando `server.js` como um servidor Node comum (nao usam a pasta `api/`).
+Render.com, Railway.app ou Fly.io tambem funcionam do mesmo jeito, rodando `server.js` como um servidor Node comum.
 
 ## Como funciona o uso
 
