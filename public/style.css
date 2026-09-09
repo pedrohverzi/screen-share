@@ -125,104 +125,11 @@ button {
 .app-shell {
   height: 100vh;
   display: grid;
-  grid-template-columns: 72px 1fr 220px;
+  grid-template-columns: 1fr 220px;
 }
 
 .app-shell.hidden {
   display: none !important;
-}
-
-/* Rooms rail */
-
-.rooms-rail {
-  background: var(--bg-deep);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 0;
-}
-
-.server-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 16px;
-  background: var(--accent);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 14px;
-}
-
-.rooms-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  overflow-y: auto;
-}
-
-.room-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--bg-panel);
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 15px;
-  position: relative;
-  border: none;
-}
-
-.room-icon:hover {
-  border-radius: 16px;
-  background: var(--accent);
-}
-
-.room-icon.active {
-  border-radius: 16px;
-  background: var(--accent);
-}
-
-.room-icon .live-dot {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--danger);
-  border: 2px solid var(--bg-deep);
-  display: none;
-}
-
-.room-icon.live .live-dot {
-  display: block;
-}
-
-.room-add {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--bg-panel);
-  color: var(--online);
-  border: none;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.room-add:hover {
-  border-radius: 16px;
-  background: var(--online);
-  color: #fff;
 }
 
 /* Main area */
@@ -243,16 +150,6 @@ button {
   padding: 0 16px;
   border-bottom: 1px solid var(--border);
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
-}
-
-.room-hash {
-  color: var(--muted);
-  font-size: 20px;
-  font-weight: 600;
-}
-
-#active-room-name {
-  font-weight: 600;
 }
 
 .header-sharer {

@@ -1,6 +1,6 @@
 const { Room, RoomEvent, Track } = LivekitClient;
 
-const DEFAULT_ROOMS = ['geral', 'jogos', 'filme'];
+const ROOM_NAME = 'geral';
 
 // Qualidade do compartilhamento de tela. Suba/desca conforme sua internet
 // e o quanto quer economizar dos 50GB/mes gratis do LiveKit.
@@ -14,9 +14,6 @@ const els = {
   joinError: document.getElementById('join-error'),
 
   appShell: document.getElementById('app-shell'),
-  roomsList: document.getElementById('rooms-list'),
-  addRoomBtn: document.getElementById('add-room-btn'),
-  activeRoomName: document.getElementById('active-room-name'),
   sharerInfo: document.getElementById('sharer-info'),
   shareBtn: document.getElementById('share-btn'),
   stopBtn: document.getElementById('stop-btn'),
@@ -28,9 +25,6 @@ const els = {
 };
 
 let identity = null;
-let displayName = null;
-let knownRooms = [...DEFAULT_ROOMS];
-let activeRoomName = null;
 let room = null;
 let localScreenTracks = [];
 let currentSharerIdentity = null;
@@ -62,20 +56,6 @@ function refreshShareAvailability() {
   els.sharerInfo.textContent = someoneSharing
     ? (iAmSharing ? 'voce esta compartilhando' : `${friendlyName(currentSharerIdentity)} esta compartilhando`)
     : '';
-}
-
-function renderRoomsList() {
-  els.roomsList.innerHTML = '';
-  for (const name of knownRooms) {
-    const btn = document.createElement('button');
-    btn.className = 'room-icon' + (name === activeRoomName ? ' active' : '');
-    btn.title = name;
-    btn.innerHTML = `${initials(name)}<span class="live-dot"></span>`;
-    btn.addEventListener('click', () => {
-      if (name !== activeRoomName) connectToRoom(name);
-    });
-    els.roomsList.appendChild(btn);
-  }
 }
 
 function renderParticipants() {
@@ -138,14 +118,7 @@ function detachTrack(track) {
   }
 }
 
-async function connectToRoom(roomName) {
-  if (room) {
-    if (localScreenTracks.length) await stopShare();
-    const oldRoom = room;
-    room = null;
-    await oldRoom.disconnect();
-  }
-
+async function connectToRoom() {
   els.videoArea.innerHTML = '';
   showPlaceholder('Conectando...');
   currentSharerIdentity = null;
@@ -156,7 +129,7 @@ async function connectToRoom(roomName) {
   const tokenRes = await fetch('/api/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ room: roomName, identity }),
+    body: JSON.stringify({ room: ROOM_NAME, identity }),
   });
   if (!tokenRes.ok) throw new Error('Nao foi possivel obter o token de acesso');
   const { token } = await tokenRes.json();
@@ -198,13 +171,8 @@ async function connectToRoom(roomName) {
     }
   }
 
-  activeRoomName = roomName;
-  if (!knownRooms.includes(roomName)) knownRooms.push(roomName);
-
-  els.activeRoomName.textContent = roomName;
   els.meName.textContent = friendlyName(identity);
   showPlaceholder('Ninguem esta compartilhando a tela');
-  renderRoomsList();
   renderParticipants();
   refreshShareAvailability();
 }
@@ -264,7 +232,6 @@ function resetToJoinScreen() {
   room = null;
   localScreenTracks = [];
   currentSharerIdentity = null;
-  activeRoomName = null;
   els.appShell.classList.add('hidden');
   els.joinScreen.classList.remove('hidden');
   els.videoArea.innerHTML = '';
@@ -281,9 +248,8 @@ els.joinBtn.addEventListener('click', async () => {
 
   els.joinBtn.disabled = true;
   try {
-    displayName = name;
     identity = `${name}-${Math.random().toString(36).slice(2, 6)}`;
-    await connectToRoom(DEFAULT_ROOMS[0]);
+    await connectToRoom();
     els.joinScreen.classList.add('hidden');
     els.appShell.classList.remove('hidden');
   } catch (err) {
@@ -292,12 +258,6 @@ els.joinBtn.addEventListener('click', async () => {
   } finally {
     els.joinBtn.disabled = false;
   }
-});
-
-els.addRoomBtn.addEventListener('click', () => {
-  const name = window.prompt('Nome da nova sala:');
-  const trimmed = name?.trim();
-  if (trimmed) connectToRoom(trimmed);
 });
 
 els.shareBtn.addEventListener('click', startShare);
